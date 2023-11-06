@@ -1,4 +1,4 @@
-package by.kirilldikun.project_management_system;
+package by.kirilldikun.projectmanagementsystem;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
