@@ -1,4 +1,4 @@
-package by.kirilldikun.project_management_system;
+package by.kirilldikun.projectmanagementsystem;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
