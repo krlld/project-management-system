@@ -2,6 +2,7 @@ package by.kirilldikun.projectmanagementsystem.service;
 
 import by.kirilldikun.projectmanagementsystem.dto.TaskDto;
 import by.kirilldikun.projectmanagementsystem.entity.Task;
+import by.kirilldikun.projectmanagementsystem.exception.ProjectNotFoundException;
 import by.kirilldikun.projectmanagementsystem.exception.TaskAlreadyExistsException;
 import by.kirilldikun.projectmanagementsystem.exception.TaskNotFoundException;
 import by.kirilldikun.projectmanagementsystem.repository.TaskRepository;
@@ -36,6 +37,9 @@ public class TaskService {
         if (taskDto.getId() != null && taskRepository.existsById(taskDto.getId())) {
             throw new TaskAlreadyExistsException();
         }
+        if (!projectService.existsById(taskDto.getProjectId())) {
+            throw new ProjectNotFoundException();
+        }
         Task task = mapToTask(taskDto);
         task = taskRepository.save(task);
         return mapToTaskDto(task);
@@ -44,6 +48,9 @@ public class TaskService {
     public TaskDto update(Long id, @Valid TaskDto taskDto) {
         if (!taskRepository.existsById(id)) {
             throw new TaskNotFoundException();
+        }
+        if (!projectService.existsById(taskDto.getProjectId())) {
+            throw new ProjectNotFoundException();
         }
         Task task = mapToTask(taskDto);
         task.setId(id);

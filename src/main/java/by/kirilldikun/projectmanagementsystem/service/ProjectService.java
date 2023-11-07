@@ -57,6 +57,10 @@ public class ProjectService {
         projectRepository.softDeleteById(id);
     }
 
+    public boolean existsById(Long id) {
+        return projectRepository.existsById(id);
+    }
+
     public Project mapToProject(ProjectDto projectDto) {
         return Project.builder()
                 .id(projectDto.getId())
