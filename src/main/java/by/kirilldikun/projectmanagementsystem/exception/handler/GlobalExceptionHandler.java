@@ -1,7 +1,10 @@
 package by.kirilldikun.projectmanagementsystem.exception.handler;
 
 import by.kirilldikun.projectmanagementsystem.dto.ErrorResponse;
-import by.kirilldikun.projectmanagementsystem.exception.StatusNotFoundException;
+import by.kirilldikun.projectmanagementsystem.exception.ProjectAlreadyExistsException;
+import by.kirilldikun.projectmanagementsystem.exception.ProjectNotFoundException;
+import by.kirilldikun.projectmanagementsystem.exception.TaskAlreadyExistsException;
+import by.kirilldikun.projectmanagementsystem.exception.TaskNotFoundException;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.data.mapping.PropertyReferenceException;
 import org.springframework.http.HttpStatus;
@@ -15,9 +18,24 @@ import org.springframework.web.method.annotation.MethodArgumentTypeMismatchExcep
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(StatusNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleStatusNotFoundException(StatusNotFoundException exception) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse("Provided status not found"));
+    @ExceptionHandler(ProjectAlreadyExistsException.class)
+    public ResponseEntity<ErrorResponse> handleProjectAlreadyExistsException(ProjectAlreadyExistsException exception) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse("Project already exists"));
+    }
+
+    @ExceptionHandler(ProjectNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleProjectNotFoundException(ProjectNotFoundException exception) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse("Project not found"));
+    }
+
+    @ExceptionHandler(TaskAlreadyExistsException.class)
+    public ResponseEntity<ErrorResponse> handleTaskAlreadyExistsException(TaskAlreadyExistsException exception) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse("Task already exists"));
+    }
+
+    @ExceptionHandler(TaskNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleTaskNotFoundException(TaskNotFoundException exception) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse("Task not found"));
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
