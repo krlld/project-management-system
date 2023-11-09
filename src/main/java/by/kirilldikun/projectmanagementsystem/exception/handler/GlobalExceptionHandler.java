@@ -5,6 +5,7 @@ import by.kirilldikun.projectmanagementsystem.exception.ProjectAlreadyExistsExce
 import by.kirilldikun.projectmanagementsystem.exception.ProjectNotFoundException;
 import by.kirilldikun.projectmanagementsystem.exception.TaskAlreadyExistsException;
 import by.kirilldikun.projectmanagementsystem.exception.TaskNotFoundException;
+import by.kirilldikun.projectmanagementsystem.exception.UserAlreadyExistsException;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.data.mapping.PropertyReferenceException;
 import org.springframework.http.HttpStatus;
@@ -36,6 +37,11 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(TaskNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleTaskNotFoundException(TaskNotFoundException exception) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse("Task not found"));
+    }
+
+    @ExceptionHandler(UserAlreadyExistsException.class)
+    public ResponseEntity<ErrorResponse> handleUserAlreadyExistsException(UserAlreadyExistsException exception) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ErrorResponse("User already exists"));
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
