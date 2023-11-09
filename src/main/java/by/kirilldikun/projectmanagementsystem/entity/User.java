@@ -29,6 +29,7 @@ public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id", nullable = false)
     private Long id;
 
     @Column(nullable = false, unique = true)
@@ -38,6 +39,7 @@ public class User implements UserDetails {
     private String password;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private Role role;
 
     @Override
