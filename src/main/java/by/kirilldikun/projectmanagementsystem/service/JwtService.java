@@ -17,10 +17,10 @@ import java.util.function.Function;
 @Service
 public class JwtService {
 
-    private final SecretKey secretKey;
+    private final String secretKeyString;
 
     public JwtService(@Value("${jwt.secret.key}") String secretKeyString) {
-        this.secretKey = Keys.hmacShaKeyFor(Decoders.BASE64.decode(secretKeyString));
+        this.secretKeyString = secretKeyString;
     }
 
     public String extractUsername(String token) {
@@ -45,7 +45,7 @@ public class JwtService {
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24))
                 .and()
-                .signWith(secretKey, Jwts.SIG.HS256)
+                .signWith(getSignedKey(), Jwts.SIG.HS256)
                 .compact();
     }
 
@@ -65,9 +65,14 @@ public class JwtService {
     public Claims extractAllClaims(String token) {
         return Jwts
                 .parser()
-                .verifyWith(secretKey)
+                .verifyWith(getSignedKey())
                 .build()
                 .parseSignedClaims(token)
                 .getPayload();
+    }
+
+    private SecretKey getSignedKey() {
+        byte[] keyBytes = Decoders.BASE64.decode(secretKeyString);
+        return Keys.hmacShaKeyFor(keyBytes);
     }
 }
