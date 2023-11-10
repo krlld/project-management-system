@@ -5,6 +5,7 @@ import by.kirilldikun.projectmanagementsystem.entity.Project;
 import by.kirilldikun.projectmanagementsystem.exception.ProjectAlreadyExistsException;
 import by.kirilldikun.projectmanagementsystem.exception.ProjectNotFoundException;
 import by.kirilldikun.projectmanagementsystem.repository.ProjectRepository;
+import by.kirilldikun.projectmanagementsystem.repository.TaskRepository;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -19,6 +20,8 @@ import org.springframework.validation.annotation.Validated;
 public class ProjectServiceImpl implements ProjectService {
 
     private final ProjectRepository projectRepository;
+
+    private final TaskRepository taskRepository;
 
     @Override
     public Page<ProjectDto> findAll(String name, Pageable pageable) {
@@ -59,6 +62,7 @@ public class ProjectServiceImpl implements ProjectService {
         if (!projectRepository.existsById(id)) {
             throw new ProjectNotFoundException();
         }
+        taskRepository.softDeleteByProjectId(id);
         projectRepository.softDeleteById(id);
     }
 

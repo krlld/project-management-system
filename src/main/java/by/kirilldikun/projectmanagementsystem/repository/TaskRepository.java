@@ -17,4 +17,8 @@ public interface TaskRepository extends JpaRepository<Task, Long> {
     @Modifying
     @Query("UPDATE Task t SET t.deleted = true WHERE t.id = :id")
     void softDeleteById(@Param("id") Long id);
+
+    @Modifying
+    @Query("UPDATE Task t SET t.deleted = true WHERE t.project.id = :projectId")
+    void softDeleteByProjectId(@Param("projectId") Long projectId);
 }
