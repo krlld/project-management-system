@@ -4,6 +4,7 @@ import by.kirilldikun.projectmanagementsystem.dto.ProjectDto;
 import by.kirilldikun.projectmanagementsystem.service.ProjectService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -32,6 +33,7 @@ public class ProjectController {
     private final ProjectService projectService;
 
     @GetMapping
+    @SecurityRequirement(name = "JWT")
     @Operation(summary = "find all", description = "Gets all projects according to the specified parameters")
     public ResponseEntity<Page<ProjectDto>> findAll(
             @RequestParam(defaultValue = "") @Parameter(description = "Query for search") String query,
@@ -41,6 +43,7 @@ public class ProjectController {
     }
 
     @GetMapping("/{id}")
+    @SecurityRequirement(name = "JWT")
     @Operation(summary = "find by id", description = "Get project by the id")
     public ResponseEntity<ProjectDto> findById(
             @PathVariable @Parameter(description = "Project id", required = true) Long id) {
@@ -49,6 +52,7 @@ public class ProjectController {
     }
 
     @PostMapping
+    @SecurityRequirement(name = "JWT")
     @Operation(summary = "save", description = "Save project and return saved project")
     public ResponseEntity<ProjectDto> save(
             @Valid @RequestBody @Parameter(description = "Project data", required = true)
@@ -58,6 +62,7 @@ public class ProjectController {
     }
 
     @PutMapping("/{id}")
+    @SecurityRequirement(name = "JWT")
     @Operation(summary = "update", description = "Update project data by the id and return updated project")
     public ResponseEntity<ProjectDto> update(
             @PathVariable @Parameter(description = "Project id", required = true) Long id,
@@ -68,6 +73,7 @@ public class ProjectController {
     }
 
     @DeleteMapping("/{id}")
+    @SecurityRequirement(name = "JWT")
     @Operation(summary = "delete", description = "Delete project by the id")
     public ResponseEntity<Void> delete(
             @PathVariable @Parameter(description = "Project id", required = true) Long id) {
